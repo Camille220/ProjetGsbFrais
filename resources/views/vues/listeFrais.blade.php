@@ -1,5 +1,6 @@
-
-	<h1> </h1>
+@extends('layouts.master')
+@section('content')
+	<h1>Liste des fiches de frais</h1>
     <table class="table table-bordered table-striped table-responsive">
         <thead>
         <th style="width:30%">Période</th>
@@ -7,12 +8,12 @@
         <th style="width:20%">Modifier</th>
         <th style="width:20%">Supprimer</th>
         </thead>
-        @foreach( )
+        @foreach($mesFrais as $ligne)
             <tr>
-                <td> </td>
-                <td> </td>
+                <td>{{$ligne->anneemois}} </td>
+                <td> {{$ligne->montantvalide}}</td>
                 <td style="text-align:center;">
-                    <a href="{{ }}/{{ }}">
+                    <a href="{{''}}/{{$ligne->id_frais }}">
                     <span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="top"
                           title="Modifier">
                     </span>
@@ -20,7 +21,7 @@
                 </td>
                 <td style="text-align:center;">
                     <a onclick="javascript:if (confirm('Suppression confirmée ?')) {
-                    window.location='{{ }}/{{ }}'
+                    window.location='{{'/' }}/{{ '/'}}'
 					}">
                         <span class="glyphicon glyphicon-remove" data-toggle="tooltip" data-placement="top"
                               title="Supprimer"></span>
@@ -30,3 +31,4 @@
         @endforeach
     </table>
     @include('vues/error')
+@stop
