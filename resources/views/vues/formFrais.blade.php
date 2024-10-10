@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('content')
-{!! Form::open(['url'=>'modifierFrais']) !!}
+{!! Form::open(['url'=>'modifierFrais/'.$unFrais->id_frais]) !!}
 <div class="col-md-12  col-sm-12 well well-md">
     <h1>titre</h1>
     <div class="form-horizontal">
