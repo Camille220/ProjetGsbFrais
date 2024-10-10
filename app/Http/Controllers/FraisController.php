@@ -27,10 +27,46 @@ class FraisController extends Controller
         $erreur="";
         try {
             $serviceFrais=new ServiceFrais();
-            $unfrais=$serviceFrais->getById($id_frais);
+            $unFrais=$serviceFrais->getById($id_frais);
             $titrevue="Modification d'une fiche de frais";
-            return view('vues/updateFrais',compact('unfrais','titrevue'));
+            return view('vues/formFrais',compact('unFrais','titrevue','erreur'));
         }catch(Exception $e){
+            $erreur=$e->getMessage();
+            return view("vues/error",compact("erreur"));
+        }
+    }
+
+    public function validateFrais(Request $request)
+    {
+        $erreur ="";
+        try{
+            $id_frais =$request->input('id_frais');
+            $annemois=$request->input('annemois');
+            $nbjustificatifs=$request->input('nbjustificatifs');
+            $serviceFrais= new ServiceFrais();
+            if ($id_frais >0){
+                $serviceFrais->updateFrais($id_frais);
+            }else{
+                $id_visiteur=$request->input('id_visiteur');
+                $serviceFrais->insertFrais($id_visiteur,$annemois,$nbjustificatifs);
+            }
+            return redirect('/getListeFrais');
+
+        }catch (Exception $e){
+            $erreur=$e->getMessage();
+            return view("vues/error",compact("erreur"));
+        }
+    }
+
+    public function addFrais()
+    {
+        $erreur="";
+        try{
+            $unFrais=new Frais();
+            $unFrais->if_frais=0;
+            $titrevue="Ajout d'une frais";
+            return view ('vues/formFrais',compact('unFrais','titrevue','erreur'));
+        }catch (Exception $e){
             $erreur=$e->getMessage();
             return view("vues/error",compact("erreur"));
         }

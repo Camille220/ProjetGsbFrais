@@ -13,7 +13,7 @@
                 <td>{{$ligne->anneemois}} </td>
                 <td> {{$ligne->montantvalide}}</td>
                 <td style="text-align:center;">
-                    <a href="{{''}}/{{$ligne->id_frais }}">
+                    <a href="{{url('/modifierFrais')}}/{{$ligne->id_frais }}">
                     <span class="glyphicon glyphicon-pencil" data-toggle="tooltip" data-placement="top"
                           title="Modifier">
                     </span>
