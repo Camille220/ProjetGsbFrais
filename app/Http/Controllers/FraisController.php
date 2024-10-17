@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use App\dao\ServiceFrais;
+use App\Models\Frais;
 use Exception;
 
 class FraisController extends Controller
 {
     public function getFraisVisiteur(){
-        $erreur="";
+        $erreur=Session::get('erreur');
+        Session::forget('erreur');
         try{
             $id=Session::get('id');
             $serviceFrais=new ServiceFrais();
@@ -41,16 +43,16 @@ class FraisController extends Controller
         $erreur ="";
         try{
             $id_frais =$request->input('id_frais');
-            $annemois=$request->input('annemois');
-            $nbjustificatifs=$request->input('nbjustificatifs');
+            $annemois=$request->input('periode');
+            $nbjustificatifs=$request->input('justificatif');
             $serviceFrais= new ServiceFrais();
             if ($id_frais >0){
-                $serviceFrais->updateFrais($id_frais);
+                $serviceFrais->updateFrais($id_frais,$annemois,$nbjustificatifs);
             }else{
-                $id_visiteur=$request->input('id_visiteur');
+                $id_visiteur=Session::get('id');
                 $serviceFrais->insertFrais($id_visiteur,$annemois,$nbjustificatifs);
             }
-            return redirect('/getListeFrais');
+            return redirect('/listeFrais');
 
         }catch (Exception $e){
             $erreur=$e->getMessage();
@@ -63,13 +65,26 @@ class FraisController extends Controller
         $erreur="";
         try{
             $unFrais=new Frais();
-            $unFrais->if_frais=0;
+            $unFrais->id_frais=0;
             $titrevue="Ajout d'une frais";
             return view ('vues/formFrais',compact('unFrais','titrevue','erreur'));
         }catch (Exception $e){
             $erreur=$e->getMessage();
             return view("vues/error",compact("erreur"));
         }
+    }
+
+    public function removeFrais($id_frais)
+    {
+        $erreur="";
+        try {
+            $serviceFrais = new ServiceFrais();
+            $serviceFrais->deleteFrais($id_frais);
+        }catch (Exception $e){
+            Session::put('erreur',$e->getMessage());
+        }
+        return redirect('/listeFrais');
+
     }
 
 }

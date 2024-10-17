@@ -22,8 +22,15 @@ Route::get('/getLogin','App\Http\Controllers\VisiteurController@signOut');
 Route::get('/logout','App\Http\Controllers\VisiteurController@logout');
 Route::get('/listeFrais','App\Http\Controllers\FraisController@getFraisVisiteur');
 
-Route::post('/modifierFrais/{id}','App\Http\Controllers\FraisController@updateFrais');
+Route::get('/modifierFrais/{id}','App\Http\Controllers\FraisController@updateFrais');
+Route::post('/validerFrais','App\Http\Controllers\FraisController@validateFrais');
+
+Route::get('/ajouterFrais','App\Http\Controllers\FraisController@addFrais');
 Route::get('/validerFrais','App\Http\Controllers\FraisController@validateFrais');
 
-Route::get('ajouterFrais','App\Http\Controllers\FraisController@addFrais');
-Route::get('validerFrais','App\Http\Controllers\FraisController@validateFrais');
+Route::get('/supprimerFrais/{id}','App\Http\Controllers\FraisController@removeFrais');
+
+
+//Route pour Frais Hors Forfait :
+Route::get('/listeFraisHF','App\Http\Controllers\FraisHFController@getFraisHF');
+

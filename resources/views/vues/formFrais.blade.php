@@ -1,8 +1,8 @@
 @extends('layouts.master')
 @section('content')
-{!! Form::open(['url'=>'modifierFrais/'.$unFrais->id_frais]) !!}
+{!! Form::open(['url'=>'validerFrais']) !!}
 <div class="col-md-12  col-sm-12 well well-md">
-    <h1>titre</h1>
+    <h1>Création d'une fiche de frais</h1>
     <div class="form-horizontal">
         <input type="hidden" name="id_frais" value="{{$unFrais->id_frais}}"/>
         <div class="form-group">
@@ -35,11 +35,13 @@
                     <span class="glyphicon glyphicon-remove"></span> Annuler</button>
             </div>
         </div>
-        <div class="form-group">
+       <!-- <div class="form-group">
             <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3">
-                <a href=" "><button type="button" class="btn btn-default btn-primary"><span class="glyphicon glyphicon-list"></span> Frais hors forfait</button></a>
+                <a href=" "><button type="button" class="btn btn-default btn-primary">
+                        <span class="glyphicon glyphicon-list"></span> Frais hors forfait</button></a>
             </div>
-        </div>
+        </div>-->
+        @include('vues/FraisHF')
         <div class="col-md-6 col-md-offset-3  col-sm-6 col-sm-offset-3">
             @include('vues/error')
         </div>

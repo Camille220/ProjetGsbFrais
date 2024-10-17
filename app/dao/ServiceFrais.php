@@ -3,7 +3,7 @@
 namespace App\dao;
 
 use App\models\Frais;
-use GuzzleHttp\Psr7\Request;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use App\Exceptions\MonException;
@@ -28,7 +28,7 @@ class ServiceFrais
         try{
             $lesFrais=DB::table('frais')
                 ->select()
-                ->where('id_visiteur','=',$id)
+                ->where('id_frais','=',$id)
                 ->first();
             return  $lesFrais;
         }catch (QueryException $e){
@@ -42,10 +42,10 @@ class ServiceFrais
          $aujourdhui = date("Y-m-d");
          DB::table('frais')
              ->where('id_visiteur',$idfrais)
-             ->update(['datemodifications'=>$aujourdhui,'anneemois'=>$anneemois,'nbjustificatif'=>$nbjustificatifs]);
+             ->update(['datemodification'=>$aujourdhui,'anneemois'=>$anneemois,'nbjustificatifs'=>$nbjustificatifs]);
 
      }catch (QueryException $e){
-         throw new MonExcption($e->getMessage(),5);
+         throw new MonException($e->getMessage(),5);
      }
     }
 
@@ -58,11 +58,26 @@ class ServiceFrais
                     'id_etat'=>2,
                     'id_visiteur'=>$idvisiteur,
                     'anneemois'=>$anneemois,
-                    'nbjustificatif'=>$nbjustificatifs]
+                    'nbjustificatifs'=>$nbjustificatifs]
                 );
         }catch (QueryException $e){
             throw new MonException($e->getMessage(),5);
         }
     }
 
+
+    public function deleteFrais($idfrais)
+    {
+        try{
+            DB::table('frais')
+                ->where('id_frais',$idfrais)
+                ->delete();
+        }catch (QueryException $e){
+            $erreur=$e->getMessage();
+            if($e->getCode()==23000){
+                $erreur="Impossible de supprimer une fiche ayant des frais liés";
+            }
+            throw new MonException($erreur,5);
+        }
+    }
 }
